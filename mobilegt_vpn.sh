@@ -24,12 +24,20 @@ DURA_SEC=300
 #1M=1000kB;200M=200000kB
 FILESIZE_KB=200000
 DATA_DIR=$DATA_HOME
+LOG_DIR="$MOBILEGT_HOME/log"
 	
 SCRIPT_SRC_DIR="/home/rywang/.netbeans/remote/222.16.4.76/lenovo-pc-Windows-x86_64/D/GitHub/mobilegt_vpn"
 PROG_SRC_DIR="/home/rywang/.netbeans/remote/222.16.4.76/lenovo-pc-Windows-x86_64/D/GitHub/mobilegt_vpn/dist/Debug/GNU-Linux"
 PROG_DST_DIR="$MOBILEGT_HOME/bin"
 TAG_FILE="$MOBILEGT_HOME/proc/mobilegt.tag"
 KEYWORD_MOBILEGT=mobilegt_vpn
+
+if [ ! -d $DATA_DIR ]; then
+	mkdir $DATA_DIR
+fi
+if [ ! -d $LOG_DIR ]; then
+	mkdir $LOG_DIR
+fi
 
 if [ $1 == "start" ];then
 	echo "start mobilegt vpn server..."
@@ -48,10 +56,6 @@ if [ $1 == "start" ];then
 	
 	echo "start mobilegt vpn server completed."
 
-	if [ ! -d $DATA_DIR ]; then
-		mkdir $DATA_DIR
-	fi
-	
 	echo "start capture interface:$TUN_IF_NAME packet...... .pcap data in $DATA_DIR"
 	#dumpcap -i $TUN_IF_NAME -b duration:$DURA_SEC -P -w $DATA_DIR/1.pcap
 	dumpcap -i $TUN_IF_NAME -b filesize:$FILESIZE_KB -P -w $DATA_DIR/1.pcap &
