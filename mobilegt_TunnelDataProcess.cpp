@@ -40,7 +40,7 @@ int tunnelDataProcess(PacketPool & tunnelReceiver_packetPool, int fd_tun_interfa
 			pkt_node->addProcessTimeTrack("consumeCheckPeerBegin");
 			if (!peerClientTable.checkPeerInternetIPandPort(pkt_node->pkt_internetAddr, pkt_node->pkt_internetPort))
 				dropPacket = true;
-			pkt_node->addProcessTimeTrack("consumeCheckPeer");
+			pkt_node->addProcessTimeTrack("consumeCheckPeerCompleted");
 			if (!dropPacket) {
 
 				cLogger.log(log_level::DEBUG, FUN_NAME, "begin process data cipher packet. pkt_length:"

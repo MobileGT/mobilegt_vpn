@@ -225,16 +225,14 @@ std::chrono::system_clock::time_point PeerClient::getRecentConnectTime() {
 //// 
 void PeerClient::increaseDataPktCount_recv(int count) {
 	mtx_dataPktCount_recv.lock();
-	while (count--)
-		dataPktCount_recv++;
+	dataPktCount_recv += count;
 	mtx_dataPktCount_recv.unlock();
 }
 
 //// 
 void PeerClient::increaseDataPktCount_send(int count) {
 	mtx_dataPktCount_send.lock();
-	while (count--)
-		dataPktCount_send++;
+	dataPktCount_send += count;
 	mtx_dataPktCount_send.unlock();
 }
 
@@ -250,14 +248,12 @@ int PeerClient::getDataPktCount_recv() const {
 }
 void PeerClient::increaseCmdPktCount_send(int count) {
 	mtx_cmdPktCount_send.lock();
-	while (count--)
-		cmdPktCount_send++;
+	cmdPktCount_send += count;
 	mtx_cmdPktCount_send.unlock();
 }
 void PeerClient::increaseCmdPktCount_recv(int count) {
 	mtx_cmdPktCount_recv.lock();
-	while (count--)
-		cmdPktCount_recv++;
+	cmdPktCount_recv += count;
 	mtx_cmdPktCount_recv.unlock();
 }
 int PeerClient::getCmdPktCount_send() const {
@@ -481,7 +477,8 @@ PacketNode* PacketPool::produce() {
 		if (nodeIndex < 0) {
 			cLogger.log(log_level::DEBUG, FUN_NAME, "produce_cv wait(lck(mtx_produce_cv)) ");
 			std::unique_lock <std::mutex> lck(mtx_produce_cv);
-			produce_cv.wait(lck);
+			//produce_cv.wait(lck);
+			produce_cv.wait_for(lck, std::chrono::microseconds{200});
 		}
 	}
 	if (nodeIndex >= 0)
@@ -517,7 +514,8 @@ PacketNode* PacketPool::consume() {
 		if (nodeIndex < 0) {
 			cLogger.log(log_level::DEBUG, FUN_NAME, "consume_cv wait(lck(mtx_consume_cv)) ");
 			std::unique_lock <std::mutex> lck(mtx_consume_cv);
-			consume_cv.wait(lck); //阻塞等待
+			//consume_cv.wait(lck); //阻塞等待
+			consume_cv.wait_for(lck, std::chrono::microseconds{200}); //阻塞等待
 		}
 	}
 	if (nodeIndex >= 0)

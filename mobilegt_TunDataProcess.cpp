@@ -22,7 +22,7 @@ int tunDataProcess(PacketPool & tunReceiver_packetPool, int socketfd_tunnel, Pee
 				break;
 			//阻塞等待通知有数据?
 			//休眠然后重试
-			this_thread::sleep_for(chrono::milliseconds(10)); //std::this_thread;std::chrono;
+			//this_thread::sleep_for(chrono::milliseconds(10)); //std::this_thread;std::chrono;
 			continue;
 		}
 		pkt_node->addProcessTimeTrack("beginConsume");

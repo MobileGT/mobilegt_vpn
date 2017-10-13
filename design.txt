@@ -104,7 +104,22 @@ client连接记录
 		.......
 		
 
+设置dumpcap非root用户调用
 ls -l /usr/bin/dumpcap
-
 sudo chmod 4755 /usr/bin/dumpcap	
+
+rywang@ubuntu:~/vpnserver/log$ cat mobilegt_vpn_log.0 | grep tunnelD | grep processTT | sort -t ' ' -k 14 > tunnelD_tmp_14.txt
+
+rywang@ubuntu:~/vpnserver/log$ cat mobilegt_vpn_log.0 | grep tunD | grep processTT | sort -t ' ' -k 16 > tunD_tmp_16.txt 
+
+rywang@ubuntu:~/vpnserver/log$ sort -n -t ':' tunD_tmp_16.txt -k 13 > 13.txt
+rywang@ubuntu:~/vpnserver/log$ view 13.txt 
+rywang@ubuntu:~/vpnserver/log$ sort -n -t ':' tunnelD_tmp_14.txt -k 9 > 9.txt
+rywang@ubuntu:~/vpnserver/log$ view 9.txt 
+
+
+vpnserver属于服务类程序，需设计添加运行态系统运行状况监测，动态调整运行参数的能力
+1. 查看当前服务的客户端
+2. 每个客户端收发包状况
+3. 日志系统状况
 	
