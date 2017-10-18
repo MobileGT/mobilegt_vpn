@@ -103,6 +103,193 @@ client连接记录
 		data
 		.......
 		
+ -L. -static 编译使用静态链接
+（-L.：表示要连接的库在当前目录中）
+
+   CentOS的发行光盘里本身是有wireshark的rpm的，如果安装系统时组件没选上，那么可以从安装光盘里找。如能连网，那么用yum是最简单的：
+      # yum install wireshark
+      # yum install wireshark-gnome
+      注意wireshark包本身只包含文本工具，这样并无法使用wireshark和图形界面。但提供了抓包基本功能。wireshark-gnome才提供wireshark（UI)工具，它依赖wireshark RPM。
+[root@PowerEdgeT430 mobilegt]# yum info gcc
+[root@PowerEdgeT430 mobilegt]# yum list gcc
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.aliyun.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+Installed Packages
+gcc.x86_64                        4.8.5-16.el7                         @anaconda
+[root@PowerEdgeT430 mobilegt]# yum check-update gcc
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.aliyun.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+
+=================================
+=================================
+CentOS 作为企业级服务器操作系统被广泛使用，其中使用C++开发服务器应用又是常见的，可是CentOS本身自带的GCC版本更新缓慢，要想使用
+较新的GCC版本就是一个经常需要解决的问题，当然可以自行编译GCC源码，但是比较麻烦，而且很难做到多个GCC版本之间进行切换。
+
+从CentOS6开始，CentOS自身提供了一种方式可以使用Scientific Linux distribution发行版的devtoolset-*来解决。具体使用方式如下：
+1）安装scl发布源：yum install centos-release-scl-rh
+2）安装GCC&GCC-C++：yum install devtoolset-3-gcc devtoolset-3-gcc-c++
+这里面devtoolset-3是第3个版本，目前针对CentOS6&7支持3，4，6三个版本，分别对应GCC4.9，GCC5.3，GCC6.2，用户可以根据自己的需要选
+择安装哪一个版本，当然可以同时安装多个版本。
+
+3）根据需要使用：source /opt/rh/devtoolset-3/enable 进行切换，这里面devtoolset-3可以根据你是安装3，4，6进行切换。这个切换原
+理也很简单，只是设置了一些环境变量。若要在启动的时候就生效，可以放置到~/.bashrc之中即可。
+
+4）补充一下使用devtoolset-2（gcc 4.8.2)的方法：
+（1）rpm --import http://linuxsoft.cern.ch/cern/slc6X/x86_64/RPM-GPG-KEY-cern
+（2）wget -O /etc/yum.repos.d/slc6-devtoolset.repo http://linuxsoft.cern.ch/cern/devtoolset/slc6-devtoolset.repo
+（3）yum install devtoolset-2-toolchain
+       yum install devtoolset-2-gcc  devtoolset-2-gcc-c++
+（4）source /opt/rh/devtoolset-2/enable
+
+服务器上实际操作记录：
+=========================
+root@PowerEdgeT430 mobilegt]# yum install centos-release-scl-rh
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.aliyun.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+Resolving Dependencies
+--> Running transaction check
+---> Package centos-release-scl-rh.noarch 0:2-2.el7.centos will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                    Arch        Version               Repository   Size
+================================================================================
+Installing:
+ centos-release-scl-rh      noarch      2-2.el7.centos        extras       12 k
+
+Transaction Summary
+================================================================================
+Install  1 Package
+
+Total download size: 12 k
+Installed size: 19 k
+Is this ok [y/d/N]: y
+Downloading packages:
+centos-release-scl-rh-2-2.el7.centos.noarch.rpm            |  12 kB   00:04     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+Warning: RPMDB altered outside of yum.
+** Found 6 pre-existing rpmdb problem(s), 'yum check' output follows:
+icedtea-web-1.6.2-4.el7.x86_64 has missing requires of java-1.8.0-openjdk
+jline-1.0-8.el7.noarch has missing requires of java >= ('0', '1.5', None)
+1:libreoffice-core-5.0.6.2-14.el7.x86_64 has missing requires of java-headless >= ('1', '1.6', None)
+1:libreoffice-ure-5.0.6.2-14.el7.x86_64 has missing requires of libjvm.so()(64bit)
+2:postfix-2.10.1-6.el7.x86_64 has missing requires of libmysqlclient.so.18()(64bit)
+2:postfix-2.10.1-6.el7.x86_64 has missing requires of libmysqlclient.so.18(libmysqlclient_18)(64bit)
+  Installing : centos-release-scl-rh-2-2.el7.centos.noarch                  1/1 
+  Verifying  : centos-release-scl-rh-2-2.el7.centos.noarch                  1/1 
+
+Installed:
+  centos-release-scl-rh.noarch 0:2-2.el7.centos                                 
+
+Complete!
+[root@PowerEdgeT430 mobilegt]# yum install devtoolset-4-gcc devtoolset-4-gcc-c++ 
+Loaded plugins: fastestmirror, langpacks
+centos-sclo-rh                                           | 2.9 kB     00:00     
+centos-sclo-rh/x86_64/primary_db                           | 2.6 MB   00:06     
+Loading mirror speeds from cached hostfile
+ * base: mirrors.aliyun.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+Resolving Dependencies
+--> Running transaction check
+---> Package devtoolset-4-gcc.x86_64 0:5.3.1-6.1.el7 will be installed
+--> Processing Dependency: devtoolset-4-runtime for package: devtoolset-4-gcc-5.3.1-6.1.el7.x86_64
+---> Package devtoolset-4-gcc-c++.x86_64 0:5.3.1-6.1.el7 will be installed
+--> Processing Dependency: devtoolset-4-libstdc++-devel = 5.3.1-6.1.el7 for package: devtoolset-4-gcc-c++-5.3.1-6.1.el7.x86_64
+--> Running transaction check
+---> Package devtoolset-4-libstdc++-devel.x86_64 0:5.3.1-6.1.el7 will be installed
+---> Package devtoolset-4-runtime.x86_64 0:4.1-3.sc1.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                        Arch     Version         Repository        Size
+================================================================================
+Installing:
+ devtoolset-4-gcc               x86_64   5.3.1-6.1.el7   centos-sclo-rh    26 M
+ devtoolset-4-gcc-c++           x86_64   5.3.1-6.1.el7   centos-sclo-rh    10 M
+Installing for dependencies:
+ devtoolset-4-libstdc++-devel   x86_64   5.3.1-6.1.el7   centos-sclo-rh   2.5 M
+ devtoolset-4-runtime           x86_64   4.1-3.sc1.el7   centos-sclo-rh    26 k
+
+Transaction Summary
+================================================================================
+Install  2 Packages (+2 Dependent packages)
+
+Total download size: 39 M
+Installed size: 101 M
+Is this ok [y/d/N]: y
+Downloading packages:
+warning: /var/cache/yum/x86_64/7/centos-sclo-rh/packages/devtoolset-4-gcc-c++-5.3.1-6.1.el7.x86_64.rpm: Header V4 RSA/SHA1 Signature, key ID f2ee9d55: NOKEY
+Public key for devtoolset-4-gcc-c++-5.3.1-6.1.el7.x86_64.rpm is not installed
+(1/4): devtoolset-4-gcc-c++-5.3.1-6.1.el7.x86_64.rpm       |  10 MB   00:17     
+(2/4): devtoolset-4-libstdc++-devel-5.3.1-6.1.el7.x86_64.r | 2.5 MB   00:04     
+(3/4): devtoolset-4-runtime-4.1-3.sc1.el7.x86_64.rpm       |  26 kB   00:00     
+(4/4): devtoolset-4-gcc-5.3.1-6.1.el7.x86_64.rpm           |  26 MB   00:35     
+--------------------------------------------------------------------------------
+Total                                              1.1 MB/s |  39 MB  00:35     
+Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
+Importing GPG key 0xF2EE9D55:
+ Userid     : "CentOS SoftwareCollections SIG (https://wiki.centos.org/SpecialInterestGroup/SCLo) <security@centos.org>"
+ Fingerprint: c4db d535 b1fb ba14 f8ba 64a8 4eb8 4e71 f2ee 9d55
+ Package    : centos-release-scl-rh-2-2.el7.centos.noarch (@extras)
+ From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
+Is this ok [y/N]: y
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : devtoolset-4-runtime-4.1-3.sc1.el7.x86_64                    1/4 
+  Installing : devtoolset-4-libstdc++-devel-5.3.1-6.1.el7.x86_64            2/4 
+  Installing : devtoolset-4-gcc-5.3.1-6.1.el7.x86_64                        3/4 
+  Installing : devtoolset-4-gcc-c++-5.3.1-6.1.el7.x86_64                    4/4 
+  Verifying  : devtoolset-4-libstdc++-devel-5.3.1-6.1.el7.x86_64            1/4 
+  Verifying  : devtoolset-4-gcc-c++-5.3.1-6.1.el7.x86_64                    2/4 
+  Verifying  : devtoolset-4-gcc-5.3.1-6.1.el7.x86_64                        3/4 
+  Verifying  : devtoolset-4-runtime-4.1-3.sc1.el7.x86_64                    4/4 
+
+Installed:
+  devtoolset-4-gcc.x86_64 0:5.3.1-6.1.el7                                       
+  devtoolset-4-gcc-c++.x86_64 0:5.3.1-6.1.el7                                   
+
+Dependency Installed:
+  devtoolset-4-libstdc++-devel.x86_64 0:5.3.1-6.1.el7                           
+  devtoolset-4-runtime.x86_64 0:4.1-3.sc1.el7                                   
+
+Complete!
+[root@PowerEdgeT430 mobilegt]# gcc -version
+gcc: error: unrecognized command line option ‘-version’
+gcc: fatal error: no input files
+compilation terminated.
+[root@PowerEdgeT430 mobilegt]# gcc --version
+gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-16)
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+[root@PowerEdgeT430 mobilegt]# source /opt/rh/devtoolset-4/enable
+[root@PowerEdgeT430 mobilegt]# gcc --version
+gcc (GCC) 5.3.1 20160406 (Red Hat 5.3.1-6)
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+[root@PowerEdgeT430 mobilegt]# 
 
 设置dumpcap非root用户调用
 ls -l /usr/bin/dumpcap
