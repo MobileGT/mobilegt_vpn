@@ -1,0 +1,9 @@
+
+查看当前g++版本
+g++ --version
+切换g++版本
+source /opt/rh/devtoolset-4/enable
+确认g++版本
+g++ --version
+开始编译
+g++ -std=c++11 *.cpp -pthread -lcryptopp -o mobilegt_vpn
