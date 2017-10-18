@@ -120,4 +120,18 @@ dumpcap一般需要root权限，输出文件所在文件夹必须属于root，�
 dumpcap不能查看.pcap文件，需使用tshark，例如：
       sudo tshark -r /home/ubuntu/vpnserver/pcap_data/66aed7a1/1_00001_20170928150036.pcap
 	  
-	  
+-pthread -g -std=c++11
+-pthread -static -g -std=c++11
+编译不能使用-static方式, 编译加上-static 运行会出现Segmentation fault (core dumped)
+
+修改tun0口mtu值
+sudo ifconfig tun0 mtu 6000
+sudo ifconfig tun0 mtu 1500
+rywang@ubuntu:~/vpnserver$ ifconfig tun0
+tun0      Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  
+          inet addr:10.77.255.254  P-t-P:10.77.255.254  Mask:255.255.255.255
+          UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1500  Metric:1
+          RX packets:763365 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:582980 errors:0 dropped:1 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:50619560 (50.6 MB)  TX bytes:806367262 (806.3 MB)
