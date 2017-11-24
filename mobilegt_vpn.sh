@@ -19,7 +19,8 @@ TUN_IF_NAME="tun0"
 #filesize:value switch to the next file after it reaches a size of value kB. 
 #Note that the filesize is limited to a maximum value of 2 GiB.
 #5minute=300second;15minute=900second;30minute=1800second;1hour=60minute=3600second
-DURA_SEC=300
+#DURA_SEC=300
+DURA_SEC=1800
 #DURA_SEC=60
 #1M=1000kB;200M=200000kB
 FILESIZE_KB=200000
@@ -58,7 +59,7 @@ if [ $1 == "start" ];then
 
 	echo "start capture interface:$TUN_IF_NAME packet...... .pcap data in $DATA_DIR"
 	#dumpcap -i $TUN_IF_NAME -b duration:$DURA_SEC -P -w $DATA_DIR/1.pcap
-	dumpcap -i $TUN_IF_NAME -b filesize:$FILESIZE_KB -P -w $DATA_DIR/1.pcap &
+	dumpcap -i $TUN_IF_NAME -b filesize:$FILESIZE_KB -b duration:$DURA_SEC -P -w $DATA_DIR/1.pcap &
 	echo "start capture packet completed."
 	echo
 
