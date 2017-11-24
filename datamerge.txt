@@ -1,0 +1,106 @@
+socket文件由其他程序上传到某个目录，文件格式为设备号时间.zip(AES)
+如：
+94346c3720160721130826.zip(AES)
+66aed7a120160928162026.zip(AES)
+时间格式为YYYYMMDDHHMMSS
+socket文件目录记为：SOURCE_SOCKET
+
+文件首先经过解压，解压程序脚本为decrypt.sh
+设置crontab定时执行
+* * * * * /home/liuzhen/decrypt.sh
+
+vpnserver采集的pcap文件存放在某个目录，
+pcap文件目录记为：SOURCE_PCAP
+需要将pcap文件和socket文件合并放到同一个目录以便于后期处理，合并程序脚本为mergedata.sh
+设置crontab定时执行
+* * * * * /home/liuzhen/mergedata.sh >> /home/liuzhen/mergedata.log
+
+合并后的文件目录记为：TARGET_DIR
+TARGET_DIR目录下的目录结构为
+    设备ID/日期
+	如：44cd4ccc/20171018
+	    
+设备ID/日期目录下面存放采集到该设备及其对应时间的socket文件和pcap文件
+
+
+=====================
+新版变更
+=====================
+新的vpnserver采集到的pcap文件不再分不同的手机目录存放，需要人工依据proc/tunip.assign中记录的设备ID同IP地址的分配对应关系将pcap文件分割出每个不同设备的pcap文件。
+
+more tunip.assign 
+#ip_prefix.index2.index1=deviceId
+10.77.0.1=66aed7a1
+10.77.0.2=243aa171
+10.77.0.3=44cd4ccc
+10.77.0.4=94346c37
+10.77.0.5=810EBM93LZNA
+10.77.0.6=NX507J
+10.77.0.7=621QECPR2NUJU
+
+
+   tshark -r 1_00001_20171012232310.pcap | grep 10.77.0.3 -v
+
+   tshark -r 1_00001_20171012232310.pcap -Y 'ip.addr==192.168.0.120' -w tt.pcap -F pcap
+   tshark -r 1_00001_20171012232310.pcap -Y 'ip.addr==10.77.255.254' -w tt1.pcap -F pcap
+   e
+
+   tshark -r 1_00001_20171012232310.pcap -Y 'ip.addr==10.77.0.3' | wc
+
+   tshark -r tt.pcap | wc -l
+   tshark -r tt1.pcap | wc -l
+   tshark -r tt2.pcap | wc -l
+   tshark -r 1_00001_20171012232310.pcap | wc -l
+
+rywang@ubuntu:~/vpnserver/pcap_data/test$ capinfos tt3.pcap 
+File name:           tt3.pcap
+File type:           Wireshark/tcpdump/... - pcap
+File encapsulation:  Raw IP
+File timestamp precision:  microseconds (6)
+Packet size limit:   file hdr: 262144 bytes
+Number of packets:   0
+File size:           24 bytes
+Data size:           0 bytes
+Capture duration:    n/a
+First packet time:   n/a
+Last packet time:    n/a
+Data byte rate:      0 bytes/s
+Data bit rate:       0 bits/s
+Average packet size: 0.00 bytes
+Average packet rate: 0 packets/s
+SHA1:                0e503190ee19ac1116a0310941056cb373251e24
+RIPEMD160:           c607f1eda05bd5c3a402790b6866eba9524dca5a
+MD5:                 42a975e834035a15ef031b079f44c37f
+Strict time order:   True
+Number of interfaces in file: 1
+Interface #0 info:
+                     Encapsulation = Raw IP (7/101 - rawip)
+                     Capture length = 262144
+                     Time precision = microseconds (6)
+                     Time ticks per second = 1000000
+                     Number of stat entries = 0
+                     Number of packets = 0
+rywang@ubuntu:~/vpnserver/pcap_data/test$ capinfos -c tt3.pcap 
+File name:           tt3.pcap
+Number of packets:   0
+rywang@ubuntu:~/vpnserver/pcap_data/test$ capinfos -d tt3.pcap 
+File name:           tt3.pcap
+Data size:           0 bytes
+rywang@ubuntu:~/vpnserver/pcap_data/test$ 
+
+rywang@ubuntu:~$ tt='10.77.0.1=66aed7a1'
+rywang@ubuntu:~$ echo $tt
+10.77.0.1=66aed7a1
+
+rywang@ubuntu:~$ OLD_IFS="$IFS"
+rywang@ubuntu:~$ IFS="="
+rywang@ubuntu:~$ arr=($tt)
+rywang@ubuntu:~$ echo ${arr[0]}
+10.77.0.1
+rywang@ubuntu:~$ echo ${arr[1]}
+66aed7a1
+rywang@ubuntu:~$ IFS="$OLD_IFS"
+rywang@ubuntu:~$ echo $IFS
+
+rywang@ubuntu:~$       
+
