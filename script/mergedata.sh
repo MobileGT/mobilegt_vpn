@@ -14,11 +14,12 @@ CMD_MKDIR=/bin/mkdir
 CMD_DATE=/bin/date
 CMD_MV=/bin/mv
 CMD_STAT=/usr/bin/stat
+CMD_ECHO="/bin/echo"
 WAIT_SECOND=5
 
 BEGIN_FLAG=1
 if [ ! -d $TARGET_DIR ]; then
-	echo $CMD_MKDIR $TARGET_DIR
+	$CMD_ECHO $CMD_MKDIR $TARGET_DIR
 	$CMD_MKDIR $TARGET_DIR
 fi
 
@@ -35,8 +36,8 @@ SOCKETFileList=`$CMD_LS $VPNSERVER\_*.socket 2>>/dev/null`
 for socketFile in $SOCKETFileList
 do
 	if [ BEGIN_FLAG ]; then
-		echo ================
-		echo `TZ='Asia/Shanghai' $CMD_DATE`
+		$CMD_ECHO ================
+		$CMD_ECHO `TZ='Asia/Shanghai' $CMD_DATE`
 		BEGIN_FLAG=0
 	fi
 	LEN=`expr ${#socketFile} - 21`
@@ -46,7 +47,7 @@ do
 	#VPNHOST=${VPNHOST_DEVICEID%_*}
 	DATE=${socketFile:$LEN:8}
 	if [ ! -d $TARGET_DIR/$DEVICEID/$DATE ]; then
-		echo $CMD_MKDIR -p $TARGET_DIR/$DEVICEID/$DATE
+		$CMD_ECHO $CMD_MKDIR -p $TARGET_DIR/$DEVICEID/$DATE
 		$CMD_MKDIR -p $TARGET_DIR/$DEVICEID/$DATE
 	fi
 
@@ -56,7 +57,7 @@ do
 	#echo $WAIT_SECNOD
 	if [ $[ $CUR_TIME - $modifyTime ] -gt $WAIT_SECOND ];then 
 		#echo $[ $CUR_TIME - $modifyTime ]
-		echo $CMD_MV $socketFile $TARGET_DIR/$DEVICEID/
+		$CMD_ECHO $CMD_MV $socketFile $TARGET_DIR/$DEVICEID/
 		$CMD_MV $socketFile $TARGET_DIR/$DEVICEID/$DATE
 	fi
 	#/home/ubuntu/vpnserver/pcap_data/44cd4ccc/1_00020_20160821175323.pcap
@@ -65,9 +66,9 @@ do
 	do
 		modifyTime_pcap=`$CMD_STAT -c %Y $pcapFile`
 		if [ $[ $CUR_TIME - $modifyTime_pcap ] -gt $WAIT_SECOND ];then
-                	echo $CMD_MV $pcapFile $TARGET_DIR/$DEVICEID/
-                	$CMD_MV $pcapFile $TARGET_DIR/$DEVICEID/$DATE
-	        fi
+              	$CMD_ECHO $CMD_MV $pcapFile $TARGET_DIR/$DEVICEID/
+              	$CMD_MV $pcapFile $TARGET_DIR/$DEVICEID/$DATE
+	    fi
 	done
 done
 

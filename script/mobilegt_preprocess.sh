@@ -2,6 +2,7 @@
 
 netstat -rn
 sudo iptables -t nat -L
+sudo ifconfig -a
 
 IF_NAME=eth0
 TUN_NAME=tun0
