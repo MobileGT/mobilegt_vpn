@@ -7,16 +7,19 @@ OWNER=liuzhen
 GROUPER=liuzhen
 TARGET_DIR=/home/liuzhen/mergedata
 SOURCE_SOCKET=/home/liuzhen/files
-SOURCE_PCAP=/home/ubuntu/vpnserver/pcap_data
+#SOURCE_PCAP=/home/ubuntu/vpnserver/pcap_data
+SOURCE_PCAP=/home/rywang/vpnserver/pcap_data
 CMD_CHOWN=/bin/chown
 CMD_LS=/bin/ls
 CMD_MKDIR=/bin/mkdir
 CMD_DATE=/bin/date
 CMD_MV=/bin/mv
 CMD_STAT=/usr/bin/stat
-CMD_ECHO="/bin/echo"
-WAIT_SECOND=5
+CMD_ECHO=/bin/echo
+CMD_GREP=/bin/grep
 
+WAIT_SECOND=5
+PCAP_WAIT_SECOND=120
 BEGIN_FLAG=1
 if [ ! -d $TARGET_DIR ]; then
 	$CMD_ECHO $CMD_MKDIR $TARGET_DIR
@@ -61,16 +64,44 @@ do
 		$CMD_MV $socketFile $TARGET_DIR/$DEVICEID/$DATE
 	fi
 	#/home/ubuntu/vpnserver/pcap_data/44cd4ccc/1_00020_20160821175323.pcap
-	PCAPFileList=`$CMD_LS $SOURCE_PCAP/$DEVICEID/*_$DATE*.pcap 2>>/dev/null`
+	#--PCAPFileList=`$CMD_LS $SOURCE_PCAP/$DEVICEID/*_$DATE*.pcap 2>>/dev/null`
+	#--for pcapFile in $PCAPFileList
+	#--do
+	#--	modifyTime_pcap=`$CMD_STAT -c %Y $pcapFile`
+	#--	if [ $[ $CUR_TIME - $modifyTime_pcap ] -gt $WAIT_SECOND ];then
+	#--		$CMD_ECHO $CMD_MV $pcapFile $TARGET_DIR/$DEVICEID/
+    #--     $CMD_MV $pcapFile $TARGET_DIR/$DEVICEID/$DATE
+	#-- fi
+	#--done
+done
+
+#process pcap files
+cd $SOURCE_PCAP
+for DEVICEID_ in `$CMD_LS -F $SOURCE_PCAP 2>>/dev/null | $CMD_GREP '/$'`
+do
+	#DEVICEID_=243aa171/
+	#DEVICEID=243aa171
+	LEN=`expr ${#DEVICEID_} - 1`
+	DEVICEID=${DEVICEID_:0:$LEN}
+	#echo $DEVICEID
+	PCAPFileList=`$CMD_LS $SOURCE_PCAP/$DEVICEID/*.pcap 2>>/dev/null`
 	for pcapFile in $PCAPFileList
 	do
+		#/home/ubuntu/vpnserver/pcap_data/44cd4ccc/1_00020_20160821175323.pcap
+		#20160821175323.pcap ---- 19
+		LEN=`expr ${#pcapFile} - 19`
+		#echo LEN:$LEN
+		DATE=${pcapFile:$LEN:8}
+		if [ ! -d $TARGET_DIR/$DEVICEID/$DATE ]; then
+			$CMD_ECHO $CMD_MKDIR -p $TARGET_DIR/$DEVICEID/$DATE
+			$CMD_MKDIR -p $TARGET_DIR/$DEVICEID/$DATE
+		fi
 		modifyTime_pcap=`$CMD_STAT -c %Y $pcapFile`
-		if [ $[ $CUR_TIME - $modifyTime_pcap ] -gt $WAIT_SECOND ];then
-              	$CMD_ECHO $CMD_MV $pcapFile $TARGET_DIR/$DEVICEID/
-              	$CMD_MV $pcapFile $TARGET_DIR/$DEVICEID/$DATE
+		if [ $[ $CUR_TIME - $modifyTime_pcap ] -gt $PCAP_WAIT_SECOND ];then
+			$CMD_ECHO $CMD_MV $pcapFile $TARGET_DIR/$DEVICEID/
+            $CMD_MV $pcapFile $TARGET_DIR/$DEVICEID/$DATE
 	    fi
 	done
 done
-
 #echo $CMD_CHOWN -R $OWNER:$GROUPER $TARGET_DIR
-$CMD_CHOWN -R $OWNER:$GROUPER $TARGET_DIR
+$CMD_CHOWN -R $OWNER:$GROUPER $TARGET_DIR/*

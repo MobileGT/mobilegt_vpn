@@ -1,0 +1,30 @@
+目前考虑vpnserver一二十台量级，每台vpnserver带几十台client，client总量几百台量级
+（未来考虑千万级？亿级？呵呵，哈哈）
+
+添加多个vpnserver联动功能
+多个vpnserver相互沟通，保障tunip.assign文件一致性，未来看看能否支持客户端自动连接最快的vpnserver
+
+
+client -- \     / -- vpnserver
+client     \   /     vpnserver
+client	    -->      vpnserver
+...		   /   \     ...
+client -- /	    \ -- vpnserver
+
+vpnserver结点分为两类：1.passive结点，2.active结点
+vpnserver相互间通过一个udp端口通信，每个vpnserver有个neighbour列表
+平时个网络中各neighbour结点无需通信，只在有新的vpn节点接入或者有新的client接入需要分配新的ip
+neighbour文件包含当前所有vnserver结点网络，生成一个hash值(MD5)标识网络，若MD5值发生变化则标识有结点加入
+1.neighbour列表更新
+  add消息，每个新增加的vpnserver节点需要一个Referrer vpnserver节点，然后新增节点给referrer节点发送add消息
+  update消息，每个referrer节点需要将新增的节点发送update信息给当前网络的所有成员
+  addcomplete消息，待所有成员确认更新后，由referrer节点发送添加完毕消息给新增节点，然后新增节点可以开始提供服务，允许手机客户端节点接入
+  push消息，vpnserver结点向连在它下面的客户端结点推送新的可用vpnserver结点信息
+  delete消息，若存在某些节点失活，第一个发现的结点主动发起delete消息给当前网络中的其他成员，被delete的结点后续需重新加入(通过add消息以及referrer结点)
+
+2.tunip.assign文件一致性问题
+  tunip.assign也生成一个文件hash值(MD5)唯一标识文件内容是否发生变化以及文件内容是否相同
+  如果需新分配ip给新的client则需要网络中所有active结节点同意分配相同的IP，否则不能分配，分配成功向所有active结点发送ack消息
+  如果分配的ip只有部分active结点统一，表明出现冲突，则需回退随机等待，然后重新再申请分配
+
+

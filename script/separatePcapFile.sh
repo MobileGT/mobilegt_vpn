@@ -14,6 +14,7 @@ CMD_CAT=/bin/cat
 CMD_GREP=/bin/grep
 
 cd $PCAPFILE_ROOT
+PCAPFILE_LIST=`$CMD_LS -t *.pcap 2>>/dev/null`
 #read tunip.assign file then create deviceid directory
 for line_tunip in `$CMD_CAT $TUNIP_ASSIGN_FILE`
 do
@@ -48,7 +49,7 @@ do
 		$CMD_MKDIR $deviceid
 	fi
 	index=0
-	for ORIG_FILE in `$CMD_LS -t *.pcap`
+	for ORIG_FILE in $PCAPFILE_LIST
 	do
 		if [ $index -eq 0 ]
 		then
@@ -59,7 +60,7 @@ do
 		#tshark -r 1_00001_20171012232310.pcap -Y 'ip.addr==10.77.0.3' -w tt2.pcap -F pcap
 		$CMD_ECHO $CMD_TSHARK -r $ORIG_FILE -Y ip.addr==$tunip -w $deviceid/$ORIG_FILE -F pcap
 		$CMD_TSHARK -r $ORIG_FILE -Y ip.addr==$tunip -w $deviceid/$ORIG_FILE -F pcap
-		filesize=`$CMD_LS -l $deviceid/$ORIG_FILE | $CMD_AWK '{ print $5}'`
+		filesize=`$CMD_LS -l $deviceid/$ORIG_FILE 2>>/dev/null | $CMD_AWK '{ print $5}'`
 		#if .pcap file is empty then delete it
 		if [ $filesize -le 24 ]
 		then
@@ -76,7 +77,7 @@ done
 #delete all original .pcap file except the newest .pcap file
 #ls -alrt *.pcap
 index=0
-for ORIG_FILE in `$CMD_LS -t *.pcap`
+for ORIG_FILE in $PCAPFILE_LIST
 do
 	if [ $index -eq 0 ]
 	then

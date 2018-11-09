@@ -6,6 +6,7 @@
       <itemPath>get_config.h</itemPath>
       <itemPath>mobilegt_util.h</itemPath>
       <itemPath>mobilegt_vpnserver.h</itemPath>
+      <itemPath>mobilegt_vpnserver_inspection.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
       <itemPath>cacheLogger.cpp</itemPath>
@@ -37,6 +38,7 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>distribute_design.txt</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -58,6 +60,8 @@
       <item path="cacheLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="cacheLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="distribute_design.txt" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>
@@ -96,6 +100,8 @@
       <item path="mobilegt_vpnserver.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="mobilegt_vpnserver.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mobilegt_vpnserver_inspection.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/get_config_simpletest.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -124,6 +130,8 @@
       </item>
       <item path="cacheLogger.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="distribute_design.txt" ex="false" tool="3" flavor2="0">
+      </item>
       <folder path="TestFiles/f1">
         <cTool>
           <incDir>
@@ -160,6 +168,8 @@
       <item path="mobilegt_vpnserver.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="mobilegt_vpnserver.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mobilegt_vpnserver_inspection.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/get_config_simpletest.cpp" ex="false" tool="1" flavor2="0">
       </item>

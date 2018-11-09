@@ -1,0 +1,70 @@
+struct in_addr {
+	in_addr_t 		s_addr;			//in_addr_t一般为uint32_t
+};
+
+struct sockaddr_in {
+	uint8_t 		sin_len;
+	sa_family_t 	sin_family;		//sa_family_t一般为uint8_t
+	in_port_t 		sin_port;		//in_port_t一般为uint16_t
+	struct in_addr 	sin_addr;
+	char 			sin_zero[8];
+};									//结构体sockaddr_in 16个字节长度(1+1+2+4+8=16)
+
+									//socklen_t一般为uint32_t
+
+struct sockaddr {
+	uint8_t			sa_len;
+	sa_family_t		sa_family;
+	char			sa_data[14];
+};									//结构体sockaddr 16个字节长度(1+1+14=16)
+
+struct in6_addr {
+	unit8_t s6_addr[16];			//128位(16*8=128),16个字节
+};
+#define SIN6_LEN
+struct sockaddr_in6 {
+	unit8_t			sin6_len;
+	sa_family_t		sin6_family;
+	in_port_t		sin6_port;
+	uint32_t			sin6_flowinfo;
+	struct in6_addr	sin6_addr;
+	uint32_t			sin6_scope_id;
+};									//结构体sockaddr_in6 28个字节长度(1+1+2+4+16+4=28)
+
+									//IPv6协议族AF_INET6,IPv4协议族AF_INET
+struct sockaddr_storage {
+	uint8_t			ss_len;
+	sa_family_t		ss_family;
+	/*
+	 *
+	 */
+};
+
+各种套接字地址结构体：sockaddr_in、sockaddr_in6、sockaddr_un、sockaddr_dl...
+
+									//size_t通常定义为unsigned int类型
+									
+套接字函数传递套接字地址结构：
+1. bind、connect、sendto
+这三个函数都是从进程往内核传递套接字地址结构。函数中有两个参数：一个是指向某个套接字地址结构的指针，另一个是该结构的整数大小。指针和指针所指内容的大小都传递给内核后，内核就知道到底需从进程复制多少数据进来。
+
+2.accept、recvfrom、getsockname、getpeername
+这四个函数都是从内核到进程传递套接字地址结构。函数中有两个参数：一个是指向某个套接字地址结构的指针，另一个是指向表示该结构大小的整数变量的指针。结构大小是一个值，它告诉内核该结构的大小，以免内核在写该结构时越界；当函数返回时，该结构大小又是一个结果，它告诉进程内核在该结构中究竟存储了多少信息。
+
+3.recvmsg、sendmsg
+
+
+////
+////
+UDP套接字的缓冲区是以一个个报文为单位进行排队的，调用一次recvfrom表示提取一个报文，和TCP基于字节流的方式是不同的。基于这样的原因我们不能在UPD中先读取一定的应用层header，而后在根据头部中长度字段来优雅的读取具体的数据，这样会出错，发生混乱；而在TCP中经常会这么做。
+
+////
+////
+那么为什么会造成粘包呢？
+
+原来这是因为TCP使用了优化方法（Nagle算法）。它将多次间隔较小且数据量小的数据，合并成一个大的数据块，然后进行封包。这么做优点也很明显，就是为了减少广域网的小分组数目，从而减小网络拥塞的出现。具体的内容感兴趣的可以看看这两篇文章：
+TCP之Nagle算法&&延迟ACK
+TCP NAGLE算法和实现
+
+而UDP就不会有这种情况，它不会使用块的合并优化算法。
+这里说到了就顺便提一下，由于它支持的是一对多的模式，所以接收端的skbuff(套接字缓冲区）采用了链式结构来记录每一个到达的UDP包，在每个UDP包中就有了消息头（消息来源地址，端口等信息）。

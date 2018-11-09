@@ -1,0 +1,446 @@
+
+ipconfig /displaydns
+这个命令,查看一下本机已经缓存了那些的dns信息的,然后输入下面的命令
+ipconfig /flushdns
+这时本机的dns缓存信息已经清空了,可以再次输入第一次输入的命令来看一下,
+ipconfig /displaydns
+
+root@ubuntu:/home/rywang# apt-get install bind9 bind9utils
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  bind9-host dnsutils libbind9-140 libdns162 libirs141
+  libisc160 libisccc140 libisccfg140 liblwres141
+Suggested packages:
+  bind9-doc rblcheck
+The following NEW packages will be installed:
+  bind9 bind9utils libirs141
+The following packages will be upgraded:
+  bind9-host dnsutils libbind9-140 libdns162 libisc160
+  libisccc140 libisccfg140 liblwres141
+8 upgraded, 3 newly installed, 0 to remove and 231 not upgraded.
+Need to get 1,929 kB of archives.
+After this operation, 2,954 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 bind9-host amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [38.4 kB]
+Get:2 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 dnsutils amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [89.0 kB]
+Get:3 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libisc160 amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [215 kB]
+Get:4 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libdns162 amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [882 kB]
+Get:5 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libisccc140 amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [16.3 kB]
+Get:6 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libisccfg140 amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [40.4 kB]
+Get:7 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 liblwres141 amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [33.7 kB]
+Get:8 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libbind9-140 amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [23.6 kB]
+Get:9 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libirs141 amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [18.0 kB]
+Get:10 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 bind9utils amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [200 kB]
+Get:11 http://cn.archive.ubuntu.com/ubuntu xenial-updates/main amd64 bind9 amd64 1:9.10.3.dfsg.P4-8ubuntu1.8 [372 kB]
+Fetched 1,929 kB in 0s (2,255 kB/s)
+Preconfiguring packages ...
+(Reading database ... 176689 files and directories currently installed.)
+Preparing to unpack .../bind9-host_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking bind9-host (1:9.10.3.dfsg.P4-8ubuntu1.8) over (1:9.10.3.dfsg.P4-8ubuntu1.4) ...
+Preparing to unpack .../dnsutils_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking dnsutils (1:9.10.3.dfsg.P4-8ubuntu1.8) over (1:9.10.3.dfsg.P4-8ubuntu1.4) ...
+Preparing to unpack .../libisc160_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking libisc160:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) over (1:9.10.3.dfsg.P4-8ubuntu1.4) ...
+Preparing to unpack .../libdns162_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking libdns162:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) over (1:9.10.3.dfsg.P4-8ubuntu1.4) ...
+Preparing to unpack .../libisccc140_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking libisccc140:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) over (1:9.10.3.dfsg.P4-8ubuntu1.4) ...
+Preparing to unpack .../libisccfg140_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking libisccfg140:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) over (1:9.10.3.dfsg.P4-8ubuntu1.4) ...
+Preparing to unpack .../liblwres141_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking liblwres141:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) over (1:9.10.3.dfsg.P4-8ubuntu1.4) ...
+Preparing to unpack .../libbind9-140_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking libbind9-140:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) over (1:9.10.3.dfsg.P4-8ubuntu1.4) ...
+Selecting previously unselected package libirs141:amd64.
+Preparing to unpack .../libirs141_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking libirs141:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Selecting previously unselected package bind9utils.
+Preparing to unpack .../bind9utils_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking bind9utils (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Selecting previously unselected package bind9.
+Preparing to unpack .../bind9_1%3a9.10.3.dfsg.P4-8ubuntu1.8_amd64.deb ...
+Unpacking bind9 (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Processing triggers for man-db (2.7.5-1) ...
+Processing triggers for libc-bin (2.23-0ubuntu5) ...
+Processing triggers for systemd (229-4ubuntu16) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Processing triggers for ufw (0.35-0ubuntu2) ...
+Setting up libisc160:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Setting up libdns162:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Setting up libisccc140:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Setting up libisccfg140:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Setting up libbind9-140:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Setting up liblwres141:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Setting up bind9-host (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Setting up dnsutils (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Setting up libirs141:amd64 (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Setting up bind9utils (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Setting up bind9 (1:9.10.3.dfsg.P4-8ubuntu1.8) ...
+Adding group `bind' (GID 121) ...
+Done.
+Adding system user `bind' (UID 114) ...
+Adding new user `bind' (UID 114) with group `bind' ...
+Not creating home directory `/var/cache/bind'.
+wrote key file "/etc/bind/rndc.key"
+#
+Processing triggers for libc-bin (2.23-0ubuntu5) ...
+Processing triggers for systemd (229-4ubuntu16) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Processing triggers for ufw (0.35-0ubuntu2) ...
+root@ubuntu:/home/rywang# 
+
+Ubuntu Server 10.10 DNS服务器的配置方法
+配置环境：  一台server和若干client组成的简单局域网，在一个网段上。一台Server做为DNS server，注意DNS server Ip地址不能用DHCP，要用静态ip。Server的ip：192.168.0.104Client的ip范围为：192.168.0.1--192.168.0.254，相互能ping通。 Installing BIND9 （安装 BIND9） 命令： sudo apt-get install bind9     sudo apt-get install dnsutils    dnsutils软件包提供了DNS测试和排错工具 我们将配置DNS为主服务器类型  DNS 配置文件在/etc/bind 目录中。安装bind9后会生成如下三个配置文件：
+named.conf；named.conf.options；named.conf.local。  其中 named.conf是主配置文件，里面包含了named.conf.options和named.conf.local，我们在架设本地dns时，只需改动named.conf.local即可。
+设置实例
+ ⑴ 环境：  Server的ip：192.168.0.104  Client的ip范围为：192.168.0.1--192.168.0.254，相互能ping通 现在将主机架设成主dns服务器，要求能解析 ubox.mytest.com 192.168.0.104  www.mytest.com 192.168.0.104 
+ ⑵ 分析：根据上面的主机名称和ip对应可以看出：  ①需要添加正向区域“mytest.com”和反向区域“0.168.192.in-addr.arpa”,  ②在“mytest.com”区域中添加A记录ubox对应192.168.0.104, CNAME记录www对应ubox ③在“0.168.192.in-addr.arpa”区域中添加各个ip地址对应的主机名 
+ 编辑配置文件 记得路径 /etc/bind/ 
+ 编辑named.conf.local  
+ 编辑用：sudo vi /etc/bind/named.conf.local 
+ 添加下列语句 
+//正向区域  zone "mytest.com" { type master;  file "db.mytest.com"; };  
+//反向区域  zone "0.168.192.in-addr.arpa" { type master; notify no;  file "reverse/db.0.168.192"; };  
+然后保存
+
+建立named.conf.local中指定的区域文件  
+在/var/cache/bind下建立正向区域文件 (复制了一份模板)  命
+令：sudo cp /etc/bind/db.local /var/cache/bind/db.mytest.com 
+sudo mkdir /var/cache/bind/reverse/  
+在/var/cache/bind/reverse下建立反向区域文件 (复制了一份模板) 
+命令：sudo cp /etc/bind/db.127 /var/cache/bind/reverse/db.0.168.192 
+编辑正向区域文件  
+命令：sudo vi /var/cache/bind/db.mytest.com 
+将原文参照下文修改 
+;  
+; BIND data file for local loopback interface 
+;  
+$TTL 604800   
+@ IN SOA mytest.com. root.mytest.com. ( 
+2  Serial  
+604800  Refresh 
+86400  Retry 
+2419200  Expire  
+604800 )  Negative Cache TTL 
+;  
+@ IN NS ns.  
+@ IN A 192.168.0.104 
+ns IN A 192.168.0.104 
+ubox IN A 192.168.0.104 
+www IN CNAME ubox 
+@ IN AAAA ::1  
+注意修改的地方，在原文的localhost处更改，再添加各个主机记录 注意用Tab键分开对齐 另外使用别名时：www IN cname 192.168.0.104 会出错，
+ 要使用www IN cname ubox 
+编辑反向区域文件  
+命令:sudo vi /var/cache/bind/reverse/db.0.168.192 
+将原文参照下文修改 
+;  
+; BIND reverse data file for local loopback interface 
+;  
+$TTL 604800  
+@ IN SOA ns.mytest.com. root.mytest.com. ( 
+1  Serial  
+604800  Refresh 
+86400  Retry 
+2419200  Expire  
+604800 )  Negative Cache TTL 
+;  
+@ IN NS ns.
+
+104 IN PTR ns.mytest.com.     104为IP地址的最后一个数 
+104 IN PTR ubox.mytest.com. 
+104 IN PTR www.mytest.com.  注意修改的地方，在原文的localhost处更改，再添加各个主机记录 注意用Tab键分开对齐 
+重新启动DNS服务  
+sudo /etc/init.d/bind9 restart 
+以上是DNS主服务器的配置 
+===============================================
+DNS从服务器的配置：  DNS主服务器配置好后，为了保证可用性，我们最好再架设一台从服务器，这样万一主服务器宕机的话，还有从服务器可以用。 
+1. 主服务器的配置改动  首先，需要修改/etc/bind/named.conf.local，在zone定义中添加allow-transfer一行： 
+$sudo vi /etc/bind/named.conf.local 添加allow-transfer所在的行： 
+zone “mytest.com” {
+  type master;
+  file”db.mytest.com”;
+  allow-transfer {192.168.0.100;}; 
+};  
+zone “0.168.192.in-addr-arpa” {
+  type master;
+  file “reverse/db.0.168.192”;
+  allow_transfer {192.168.0.100;}; 
+};    
+ 注意将192.168.0.100改为你的从服务器的真实IP地址。 
+ 2. 从服务器的配置  
+ 我们假设从服务器的IP地址为192.168.0.100，在从服务器上，也需要安装bind9： 
+ $sudo apt-get install bind9 dnsutils  
+ 然后，创建反向zone文件目录，并将该目录的所有权交给bind： 
+ $sudo mkdir /var/cache/bind/reverse  
+ $sudo chown bind.bind /var/cache/bind/reverse/ 
+ 修改/etc/bind/named.conf.local文件： 
+ $sudo vi /etc/bind/named.conf.local 
+ 添加内容如下： 
+ zone “mytest.com” {  type slave;  file “db.mytest.com”;  masters {192.168.0.104;}; };  
+ zone “0.168.192.in-addr.arpa” {  type slave;  file “reverse/db.0.168.192”;  masters {192.168.0.104;}; };
+
+现在，重新启动bind服务： 
+$sudo /etc/init.d/bind9 restart  服务启动时，bind会自动复制主服务器上的zone文件。你可以查看一下这些文件是否正确地复制过来：  
+$ls /var/cache/bind/ -R  
+如果没有，请查看系统日志，找出错误： $sudo tail –n50 /var/log/syslog   
+测试
+提示：测试之前，请先确认/etc/resolv.conf文件中的nameserver指向192.168.0.104，也就是DNS服务器自己的IP地址。 
+Ping主机名： $ping mytest.com  也可以使用dig工具进行正向、反向解析测试： 
+$dig www.mytest.com  
+$dig 0.168.192.in-addr.arpa.  AXFR  
+通过dig本地回环地址，可以确认bind是否已经运行在53端口： 
+$dig –x 127.0.0.1  
+Named-checkzone该工具可以用来测试zone文件  
+$named-checkzone mytest.com /etc/bind/db.mytest.com 
+$named-checkzone mytest.com /etc/bind/db.0.168.192  
+如果一切正确，应该有如下结果： 
+Zone mytest.com/IN: loaded serial 5 
+OK  
+其中，序列号可能会不同。   
+你也可以在XP下的cmd环境下用nslookup去试试看 
+注意：改动配置文件后都要重新启动bind9。 
+==================================
+DNS客户端的配置  
+此时DNS服务器已经开始工作了，要使用该DNS服务器，以XP为例，到"控制面板"–"网络连接"，找到上网的网卡，右键选择"属性",改变DNS地址为192.168.0.104   
+Linux 修改DNS，请修改/etc/resolv.conf文件。 
+例如：  
+编辑sudo vi /etc/resolv.conf 
+更改为  
+nameserver 192.168.0.104 
+nameserver 192.168.0.100 
+DNS搭建后的检测  查看域名解析的命令为nslookup，敲入nslookup后再敲入域名如mail.mytest.com进行正向解析，敲入IP地址则进行反向解析 
+cmd命令： 
+nslookup 
+mytest.com  
+www.mytest.com   
+
+192.168.0.104 
+Exit  
+Ping www.mytest.com 
+Ping www.baidu.com  
+可以ping通，说明一切正常。   
+以上是针对邮件服务器搭建DNS服务器做的练习，谨供参考。 
+
+
+一、    DNS说明
+
+        DNS使用端口号：53
+
+           正解与反解说明：
+
+               正解：通过Domain（DNS下的hostname）应射IP；通过hostname去找IP
+
+               反解：通过IP反查hostname
+
+           Zone（区域）：一个正解或一个反解的设定就是一个zone
+
+ 
+
+二、    安装DNS的套件：bind9
+
+         sudo apt-get install bind9
+
+          查看安装后的相关目录文件：sudo dpkg – L bind9
+
+             查看端口是否已启动：netstat – tunlp | grep 53 
+
+三、    DNS设定：
+
+         配置环境：DNS Server IP：192.168.1.254 ，hostname：samba.elantech.com
+
+            在DNS Server下的配置文件有如下：
+
+                    /etc/bind/named.conf.options        //全局设置
+
+                    /etc/bind/named.conf.default-zone    //添加或删除zone的配置
+
+                    /etc/bind/db.127                   //本机反解
+
+                    /etc/bind/db.local                  //本机正解
+
+四、    DNS Server 配置：
+
+        配置步骤如下：
+
+          
+
+1、修改全局选项   sudo vi /etc/bind/named.conf.options
+
+              转发的IP地址修改成广东电信的DNS IP：
+
+forwarders {
+
+                202.96.128.143;
+
+         };
+
+ 
+
+           2、添加zone  sudo vi /etc/bind/named.conf.default-zone
+
+              添加2个zone ，“db.elantech.com”用来正解、“db.192”是用来反解
+
+             
+
+          zone "elantech.com"  {
+
+                 type master;
+
+                 file "/etc/bind/db.elantech.com";
+
+};
+
+ 
+
+zone "1.168.192.in-addr.arpa" {
+
+                    type master;
+
+                    file "/etc/bind/db.192";
+
+};
+
+ 
+
+3、设定DNS的正解：sudo cp /etc/bind/db.local /etc/bind/db.elantech.com
+
+                  
+
+ root@samba:/etc/bind# vi db.elantech.com
+
+;
+
+; BIND data file for local loopback interface
+
+;
+
+$TTL    604800
+
+@       IN      SOA     elantech.com. root.elantech.com. (
+
+                              2         ; Serial
+
+                         604800         ; Refresh
+
+                          86400         ; Retry
+
+                        2419200         ; Expire
+
+                         604800 )       ; Negative Cache TTL
+
+;
+
+@       IN      NS      elantech.com.
+
+@       IN      A       192.168.1.254
+
+samba   IN      A       192.168.1.254         
+
+ 
+
+4、设定DNS的反解:  sudo cp /etc/bind/db.127 /etc/bind/db.192
+
+ 
+
+root@samba:/etc/bind# vi db.192
+
+;
+
+; BIND reverse data file for local loopback interface
+
+;
+
+$TTL    604800
+
+@       IN      SOA     elantech.com. root.elantech.com. (
+
+                              1         ; Serial
+
+                         604800         ; Refresh
+
+                          86400         ; Retry
+
+                        2419200         ; Expire
+
+                         604800 )       ; Negative Cache TTL
+
+;
+
+@       IN      NS      elantech.com.
+
+1.0.0   IN      PTR     samba.elantech.com.
+
+254     IN      PTR   samba.elantech.com.
+
+ 
+
+5、启动bind服务： sudo /etc/inti.d/bind9 restart
+
+ 
+
+6、查看启动bind服务的日志： tail /var/log/syslog
+
+ 
+
+root@samba:/etc/bind# tail /var/log/syslog
+
+Aug  3 10:15:14 samba named[1228]: command channel listening on ::1#953
+
+Aug  3 10:15:14 samba named[1228]: zone 0.in-addr.arpa/IN: loaded serial 1
+
+Aug  3 10:15:14 samba named[1228]: zone 127.in-addr.arpa/IN: loaded serial 1
+
+Aug  3 10:15:14 samba named[1228]: zone 1.168.192.in-addr.arpa/IN: loaded serial 1
+
+Aug  3 10:15:14 samba named[1228]: zone 255.in-addr.arpa/IN: loaded serial 1
+
+Aug  3 10:15:14 samba named[1228]: zone elantech.com/IN: loaded serial 2
+
+Aug  3 10:15:14 samba named[1228]: zone localhost/IN: loaded serial 2
+
+Aug  3 10:15:14 samba named[1228]: managed-keys-zone ./IN: loading from master file managed-keys.bind failed: file not found
+
+Aug  3 10:15:14 samba named[1228]: managed-keys-zone ./IN: loaded serial 0
+
+Aug  3 10:15:14 samba named[1228]: running
+
+ 
+
+7、在本机(192.168.1.254)上设置DNS ：sudo /etc/resolv.conf
+
+                       添加一行, nameserver 192.168.1.254
+
+五、    测试DNS
+
+1、 在DNS Server端
+
+       命令：host samba.elantech.com (正解)
+
+            samba.elantech.com has address 192.168.1.254
+
+       命令：host 192.168.1.254     （反解）
+
+      254.1.168.192.in-addr.arpa domain name pointer samba.elantech.com.
+
+2、 在客户端
+
+       命令： nslookup www.baidu.com
+
+                 C:\Documents and Settings\Administrator>nslookup www.baidu.com
+
+Server:  samba.elantech.com
+
+Address:  192.168.1.254
+
+ 
+
+Non-authoritative answer:
+
+Name:    www.a.shifen.com
+
+Addresses:  220.181.112.143, 220.181.111.148
+
+Aliases:  www.baidu.com

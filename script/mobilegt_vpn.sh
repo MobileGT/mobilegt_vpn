@@ -13,6 +13,7 @@ if [ ! $# -eq 1 ];then
 	exit 0
 fi
 
+SERVER_NAME=Alibaba
 MOBILEGT_HOME="/home/rywang/vpnserver"
 SRC_DIR="/home/rywang/.netbeans/remote/222.16.4.76/lenovo-pc-Windows-x86_64/D/GitHub"
 SCRIPT_SRC_DIR="$SRC_DIR/mobilegt_vpn"
@@ -64,7 +65,7 @@ if [ $1 == "start" ];then
 
 	$CMD_ECHO "start capture interface:$TUN_IF_NAME packet...... .pcap data in $DATA_DIR"
 	#dumpcap -i $TUN_IF_NAME -b duration:$DURA_SEC -P -w $DATA_DIR/1.pcap
-	$CMD_DUMPCAP -i $TUN_IF_NAME -b filesize:$FILESIZE_KB -b duration:$DURA_SEC -P -w $DATA_DIR/1.pcap &
+	$CMD_DUMPCAP -i $TUN_IF_NAME -b filesize:$FILESIZE_KB -b duration:$DURA_SEC -P -w $DATA_DIR/$SERVER_NAME.pcap &
 	$CMD_ECHO "start capture packet completed."
 	$CMD_ECHO
 
@@ -108,7 +109,7 @@ elif [ $1 == "update" ];then
 	$CMD_CP $SCRIPT_SRC_DIR/stopCapture.sh $PROG_DST_DIR/
 	$CMD_CP $SCRIPT_SRC_DIR/mobilegt_vpn.cfg $PROG_DST_DIR/
 
-	$CMD_ECHO "$CMD_CP $PROG_SRC_DIR/mobilegt_vpn $PROG_DST_DIR/"
+	$CMD_ECHO "$CMD_CP $PROG_SRC_DIR/mobilegt_vpn $PROG_DST_DIR                                                   
 	$CMD_CP $PROG_SRC_DIR/mobilegt_vpn $PROG_DST_DIR/
 
 	$CMD_ECHO "update vpnserver completed."
